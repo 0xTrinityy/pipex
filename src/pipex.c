@@ -6,11 +6,11 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:13 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/25 15:41:17 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:20:39 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 /*char    *path_find(char *str)
 {
@@ -26,43 +26,32 @@
 
 int     main(int ac, char **av, char **envp)
 {
-	char *options[2] = {"env", NULL};
-	char **tab;
-	char *tmp;
-	char *cmd_path;
-	int path;
-	int i;
-
-	i = 0;
+	pid_t child;
+	pid_t res;
+	int status;
+	int file[2];
 	(void)ac;
 	(void)av;
-	while (envp[i])
+	
+	printf("forking...\n");
+	printf("fork done !\n");
+	child = fork();
+	if (child == -1)
+		return (1);
+	if (child == 0)
 	{
-		if (ft_strnstr(envp[i], "PATH", 4))
-			break;
-		i++;
+		command_exec(envp);
 	}
-	tab = ft_split(envp[i], ':');
-	i = 0;
-	while (tab[i] != 0)
+	else if (child > 0)
 	{
-		tmp = tab[i];
-		tab[i] = ft_strjoin(tab[i], "/");
-		free(tmp);
-		i++;
-	}
-	i = 0;
-	while (tab[i])
-    {
-        cmd_path = ft_strjoin(tab[i], "ls");
-        if (access(cmd_path, F_OK | X_OK) == 0)
-        {
-            printf("%s\n", cmd_path);
-            execv(cmd_path, options);
+		res = waitpid(child, &status, 0);
+		if (WIFEXITED(status))
+		{
+            printf("Process completed\n");
+            command_exec2(envp);
 		}
-        free(cmd_path); 
-        i++;
-    }
-    printf("FIN\n");
+        else
+            printf("interrupted...");
+	}
 	return (0);
 }
