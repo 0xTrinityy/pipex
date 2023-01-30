@@ -6,22 +6,28 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:18:19 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/26 17:19:18 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:41:47 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void    command_exec(char **envp)
+void    command_exec(char **envp, int fd_in, int *file)
 {
 	char *options[2] = {"env", NULL};
 	char **tab;
 	char *tmp;
 	char *cmd_path;
 	int path;
+	int new_file;
+	int new_file1;
 	int i;
 
 	i = 0;
+	new_file = dup2(fd_in, STDIN_FILENO);
+	new_file1 = dup2(file[1], STDOUT_FILENO);
+	close(fd_in);
+	close(file[1]);
 	while (envp[i])
 	{
 		if (ft_strnstr(envp[i], "PATH", 4))
@@ -40,7 +46,7 @@ void    command_exec(char **envp)
 	i = 0;
 	while (tab[i])
     {
-        cmd_path = ft_strjoin(tab[i], "ps");
+        cmd_path = ft_strjoin(tab[i], "cat");
         if (access(cmd_path, F_OK | X_OK) == 0)
         {
             printf("%s\n", cmd_path);

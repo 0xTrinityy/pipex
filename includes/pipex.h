@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:22 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/26 17:17:56 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:38:11 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 
-void    command_exec(char **envp);
+void    command_exec(char **envp, int fd_in, int *file);
 void    command_exec2(char **envp);
 
 

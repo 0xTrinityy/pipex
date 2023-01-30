@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:19:49 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/25 16:23:45 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:18:15 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int main(void)
         return (1);
     if (pid == 0)
     {
-        printf("Fils : Je suis le fils, mon pid interne est %d.\n", pid);
+        printf("PID child equal %d.\n", pid);
         usleep(1000000); // Attendre 1 seconde.
-        printf("Fils : Termine !\n");
+        printf("child over !\n");
     }
     else if (pid > 0)
     {
-        printf("Pere : Je suis le pere, le pid de mon fils est %d.\n", pid);
-        printf("Pere : Termine !\n");
+        printf("parent and PID child is %d.\n", pid);
+        printf("parent ove !\n");
     }
     return (0);
 }
