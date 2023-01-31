@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:22 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/30 14:38:11 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/31 22:15:17 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,24 @@
 # include <sys/wait.h>
 # include <errno.h>
 
-void    command_exec(char **envp, int fd_in, int *file);
-void    command_exec2(char **envp);
+typedef struct t_list
+{
+    pid_t   child;
+    pid_t   child2;
+    pid_t   res;
+    pid_t   res2;
+    int     status;
+    int     status2;
+    int     pipe[2];
+    int     file_in;
+    int     file_out;
+    int     path;
+    char    **envp;
+
+}   t_pipe;
+
+void    command_exec(t_pipe *data);
+void    command_exec2(t_pipe *data);
 
 
 

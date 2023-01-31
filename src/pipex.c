@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:13 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/30 15:08:29 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/31 22:40:08 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,38 @@
 
 int     main(int ac, char **av, char **envp)
 {
-	pid_t child;
-	pid_t child2;
-	pid_t res;
-	pid_t res2;
-	int status;
-	int status2;
-	int file[2];
-	int fd_in;
+	t_pipe	data;
 	(void)ac;
 	(void)av;
 	
-	printf("forking...\n");
-	fd_in = 0;
-	fd_in = open("test_in.txt", O_RDONLY);
-	if (pipe(file) == -1)
+	data.envp = envp;
+	data.file_in = open(av[1], O_RDONLY);
+	if (data.file_in < 0)
 		return (0);
-	child = fork();
-	child2 = fork();
-	if (child == -1)
+	data.file_out = open(av[ac - 1], O_RDWR);
+	if (data.file_out < 0)
+		return (0);
+	if (pipe(&data.pipe[0]) == 0)
+		return (0);
+	data.child = fork();
+	data.child2 = fork();
+	if (data.child == -1)
 		return (1);
-	if (child == 0)
+	if (data.child == 0)
 	{
-		command_exec(envp, fd_in, file);
+		command_exec(&data);
 	}
-	if (child2 == 0)
+	if (data.child2 == 0)
 	{
-		command_exec2(envp);
+		command_exec2(&data);
 	}
-	else if (child > 0)
+	else if (data.child > 0)
 	{
-		res = waitpid(child, &status, 0);
-		res2 = waitpid(child2, &status2, 0);
-		if (WIFEXITED(status) && WIFEXITED(status2))
+		data.res = waitpid(data.child, &data.status, 0);
+		data.res2 = waitpid(data.child2, &data.status2, 0);
+		if (WIFEXITED(data.status) && WIFEXITED(data.status2))
 		{
-			close(fd_in);
+			close(data.file_in);
 			printf("succes\n");
 		}
         else

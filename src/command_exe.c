@@ -6,35 +6,35 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:18:19 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/30 16:41:47 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/01/31 22:20:48 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void    command_exec(char **envp, int fd_in, int *file)
+void    command_exec(t_pipe *data)
 {
 	char *options[2] = {"env", NULL};
 	char **tab;
 	char *tmp;
 	char *cmd_path;
-	int path;
-	int new_file;
-	int new_file1;
 	int i;
+	int new_file;
+	int	new_file1;
+
 
 	i = 0;
-	new_file = dup2(fd_in, STDIN_FILENO);
-	new_file1 = dup2(file[1], STDOUT_FILENO);
-	close(fd_in);
-	close(file[1]);
-	while (envp[i])
+	new_file = dup2(data->file_in, STDIN_FILENO);
+	new_file1 = dup2(data->pipe[1], STDOUT_FILENO);
+	close(data->file_in);
+	close(data->pipe[1]);
+	while (data->envp[i])
 	{
-		if (ft_strnstr(envp[i], "PATH", 4))
+		if (ft_strnstr(data->envp[i], "PATH", 4))
 			break;
 		i++;
 	}
-	tab = ft_split(envp[i], ':');
+	tab = ft_split(data->envp[i], ':');
 	i = 0;
 	while (tab[i] != 0)
 	{
@@ -57,23 +57,22 @@ void    command_exec(char **envp, int fd_in, int *file)
     }
 }
 
-void    command_exec2(char **envp)
+void    command_exec2(t_pipe *data)
 {
 	char *options[2] = {"env", NULL};
 	char **tab;
 	char *tmp;
 	char *cmd_path;
-	int path;
-	int i;
+	int		i;
 
 	i = 0;
-	while (envp[i])
+	while (data->envp[i])
 	{
-		if (ft_strnstr(envp[i], "PATH", 4))
+		if (ft_strnstr(data->envp[i], "PATH", 4))
 			break;
 		i++;
 	}
-	tab = ft_split(envp[i], ':');
+	tab = ft_split(data->envp[i], ':');
 	i = 0;
 	while (tab[i] != 0)
 	{
