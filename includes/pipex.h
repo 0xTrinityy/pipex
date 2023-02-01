@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:22 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/31 22:15:17 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:19:09 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct t_list
 
 }   t_pipe;
 
-void    command_exec(t_pipe *data);
-void    command_exec2(t_pipe *data);
+void    command_exec(t_pipe *data, int ac, char **av);
+void    command_exec2(t_pipe *data, int ac, char **av);
 
 
 

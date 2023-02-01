@@ -6,28 +6,20 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:18:19 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/01/31 22:20:48 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:17:30 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void    command_exec(t_pipe *data)
+char    **cmd_pathing(t_pipe *data)
 {
-	char *options[2] = {"env", NULL};
-	char **tab;
-	char *tmp;
-	char *cmd_path;
-	int i;
-	int new_file;
-	int	new_file1;
-
-
+	int     i;
+	char    **tab;
+	char    *tmp;
+	
+	
 	i = 0;
-	new_file = dup2(data->file_in, STDIN_FILENO);
-	new_file1 = dup2(data->pipe[1], STDOUT_FILENO);
-	close(data->file_in);
-	close(data->pipe[1]);
 	while (data->envp[i])
 	{
 		if (ft_strnstr(data->envp[i], "PATH", 4))
@@ -43,10 +35,25 @@ void    command_exec(t_pipe *data)
 		free(tmp);
 		i++;
 	}
+	return (tab);
+}
+
+void    command_exec(t_pipe *data, int ac, char **av)
+{
+	char *options[2] = {"env", NULL};
+	char **tab;
+	char *cmd_path;
+	int i;
+
+	dup2(data->file_in, STDIN_FILENO);
+	dup2(data->pipe[1], STDOUT_FILENO);
+	close(data->file_in);
+	close(data->pipe[1]);
+	tab = cmd_pathing(data);
 	i = 0;
 	while (tab[i])
     {
-        cmd_path = ft_strjoin(tab[i], "cat");
+        cmd_path = ft_strjoin(tab[i], av[ac - 3]);
         if (access(cmd_path, F_OK | X_OK) == 0)
         {
             printf("%s\n", cmd_path);
@@ -57,20 +64,24 @@ void    command_exec(t_pipe *data)
     }
 }
 
-void    command_exec2(t_pipe *data)
+void    command_exec2(t_pipe *data, int ac, char **av)
 {
 	char *options[2] = {"env", NULL};
 	char **tab;
 	char *tmp;
 	char *cmd_path;
 	int		i;
-
+	
+	dup2(data->pipe[0], STDIN_FILENO);
+	dup2(data->file_out, STDOUT_FILENO);
+	close(data->pipe[0]);
+	close(data->file_out);
 	i = 0;
 	while (data->envp[i])
 	{
 		if (ft_strnstr(data->envp[i], "PATH", 4))
 			break;
-		i++;
+		i++; 
 	}
 	tab = ft_split(data->envp[i], ':');
 	i = 0;
@@ -84,7 +95,7 @@ void    command_exec2(t_pipe *data)
 	i = 0;
 	while (tab[i])
     {
-        cmd_path = ft_strjoin(tab[i], "pwd");
+        cmd_path = ft_strjoin(tab[i], av[ac - 2]);
         if (access(cmd_path, F_OK | X_OK) == 0)
         {
             printf("%s\n", cmd_path);
