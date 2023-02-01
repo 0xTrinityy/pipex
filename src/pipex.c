@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:13 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/01 19:06:31 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/01 19:39:18 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int     main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	
-	//if (ac != 5)
-	//	return (0);
+	if (ac != 5)
+		return (0);
 	data.envp = envp;
 	data.file_in = open(av[1], O_RDONLY);
 	if (data.file_in < 0)
@@ -30,7 +30,7 @@ int     main(int ac, char **av, char **envp)
 		return (0);
 	}
 	if (!av[4])
-		data.file_out = open("test_out.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
+		data.file_out = open("src/file_out.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	else
 		data.file_out = open(av[4], O_RDWR | O_CREAT | O_TRUNC);
 	if (data.file_out < 0)
