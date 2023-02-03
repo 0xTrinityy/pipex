@@ -6,7 +6,7 @@
 #    By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 15:53:01 by tbelleng          #+#    #+#              #
-#    Updated: 2023/01/26 17:21:27 by tbelleng         ###   ########.fr        #
+#    Updated: 2023/02/03 17:45:34 by tbelleng         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC_DIR = ./src
 BIN_DIR = ./bin/
 
 SRC =	$(SRC_DIR)/pipex.c     \
+		$(SRC_DIR)/error.c     \
 		$(SRC_DIR)/command_exe.c   \
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)%.o)
@@ -27,7 +28,7 @@ LIB = -Llibft -lft
 
 INCLUDES = ./includes
 
-CFLAGS = -Wall -Werror -Wextra -I$(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -I$(INCLUDES) -g3
 
 all :	$(BIN_DIR) $(NAME)
 

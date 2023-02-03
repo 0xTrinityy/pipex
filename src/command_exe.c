@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:18:19 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/01 18:17:30 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:52:27 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,24 @@ void    command_exec(t_pipe *data, int ac, char **av)
 {
 	char *options[2] = {"env", NULL};
 	char **tab;
-	char *cmd_path;
 	int i;
 
-	dup2(data->file_in, STDIN_FILENO);
 	dup2(data->pipe[1], STDOUT_FILENO);
-	close(data->file_in);
-	close(data->pipe[1]);
+	close(data->pipe[0]);
+	dup2(data->file_in, STDERR_FILENO);
 	tab = cmd_pathing(data);
 	i = 0;
-	while (tab[i])
+    while (tab[i])
     {
-        cmd_path = ft_strjoin(tab[i], av[ac - 3]);
-        if (access(cmd_path, F_OK | X_OK) == 0)
+        data->cmd_path = ft_strjoin(tab[i], av[ac - 3]);
+        if (access(data->cmd_path, F_OK | X_OK) == 0)
         {
-            printf("%s\n", cmd_path);
-            execv(cmd_path, options);
-		}
-        free(cmd_path); 
+            execv(data->cmd_path, options);
+		} 
         i++;
     }
+	//error_occur("Command doesnt exist");
+    return ;
 }
 
 void    command_exec2(t_pipe *data, int ac, char **av)
@@ -69,39 +67,22 @@ void    command_exec2(t_pipe *data, int ac, char **av)
 	char *options[2] = {"env", NULL};
 	char **tab;
 	char *tmp;
-	char *cmd_path;
 	int		i;
 	
 	dup2(data->pipe[0], STDIN_FILENO);
+	close(data->pipe[1]);
 	dup2(data->file_out, STDOUT_FILENO);
-	close(data->pipe[0]);
-	close(data->file_out);
 	i = 0;
-	while (data->envp[i])
-	{
-		if (ft_strnstr(data->envp[i], "PATH", 4))
-			break;
-		i++; 
-	}
-	tab = ft_split(data->envp[i], ':');
-	i = 0;
-	while (tab[i] != 0)
-	{
-		tmp = tab[i];
-		tab[i] = ft_strjoin(tab[i], "/");
-		free(tmp);
-		i++;
-	}
-	i = 0;
+	//free(data->cmd_path);
+	tab = cmd_pathing(data);
 	while (tab[i])
     {
-        cmd_path = ft_strjoin(tab[i], av[ac - 2]);
-        if (access(cmd_path, F_OK | X_OK) == 0)
+        data->cmd_path = ft_strjoin(tab[i], av[ac - 2]);
+        if (access(data->cmd_path, F_OK | X_OK) == 0)
         {
-            printf("%s\n", cmd_path);
-            execv(cmd_path, options);
-		}
-        free(cmd_path); 
+            execv(data->cmd_path, options);
+		} 
         i++;
     }
+    return ;
 }

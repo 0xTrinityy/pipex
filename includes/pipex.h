@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:22 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/01 18:19:09 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:25:41 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ typedef struct t_list
     int     file_out;
     int     path;
     char    **envp;
+    char    *cmd_path;
 
 }   t_pipe;
 
 void    command_exec(t_pipe *data, int ac, char **av);
 void    command_exec2(t_pipe *data, int ac, char **av);
-
-
+void    close_all(t_pipe *data);
+int     error_occur(char *str);
 
 
 #endif

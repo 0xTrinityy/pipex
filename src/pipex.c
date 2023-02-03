@@ -6,12 +6,17 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:24:13 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/01 19:39:18 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:59:11 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
+int error_occur(char *str)
+{
+	write(2, str, ft_strlen(str));
+	exit(1);
+}
 
 int     main(int ac, char **av, char **envp)
 {
@@ -19,71 +24,39 @@ int     main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	
-	if (ac != 5)
-		return (0);
+
 	data.envp = envp;
+	if (ac != 5)
+		error_occur("not enough arg\n");
 	data.file_in = open(av[1], O_RDONLY);
 	if (data.file_in < 0)
-	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-        write(2, "\n", 1);
-		return (0);
-	}
-	if (!av[4])
-		data.file_out = open("src/file_out.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
-	else
-		data.file_out = open(av[4], O_RDWR | O_CREAT | O_TRUNC);
+		error_occur("no in file\n");
+	data.file_out = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
 	if (data.file_out < 0)
-	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-        write(2, "\n", 1);
-		return (0);
-	}
+		error_occur("error with out file\n");
 	if (pipe(&data.pipe[0]) == -1)
-	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-        write(2, "\n", 1);
-        return (0);
-    }
+		error_occur("error while pipe creation\n");
 	data.child = fork();
 	data.child2 = fork();
 	if (data.child == -1)
-	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-        write(2, "\n", 1);
-		return (0);
-	}
+		error_occur("fork failed\n");
 	if (data.child2 == -1)
-	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-        write(2, "\n", 1);
-		return (0);
-	}	
+		error_occur("fork failed\n");	
 	if (data.child == 0)
-	{
 		command_exec(&data, ac, av);
-	}
 	if (data.child2 == 0)
-	{
 		command_exec2(&data, ac, av);
-	}
-	else if (data.child > 0)
-	{
-		data.res = waitpid(data.child, &data.status, 0);
-		data.res2 = waitpid(data.child2, &data.status2, 0);
-		if (WIFEXITED(data.status) && WIFEXITED(data.status2))
-			printf("succes\n");
-        else
-        {
-            write(2, strerror(errno), ft_strlen(strerror(errno)));
-            write(2, "\n", 1);
-            return (0);
-		}
-	}
-	close(data.pipe[0]);
-	close(data.pipe[1]);
-	close(data.file_in);
-	close(data.file_out);
+	close_all(&data);
+	printf("DEBUG1\n");
+	waitpid(data.child, NULL, 0);
+	printf("DEBUG2\n");
+	waitpid(data.child2, NULL, 0);
+	printf("DEBUG\n");
+	/*if (WIFEXITED(data.status) && WIFEXITED(data.status2))
+		printf("succes\n");
+    else
+        error_occur("error during \n");*/
+    //free(data.cmd_path);
 	printf("Process completed\n");
 	return (0);
 }
