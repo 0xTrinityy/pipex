@@ -1,9 +1,8 @@
 bin
+bonus
 gnl
 includes
 libft
 Makefile
 pipex
-salut
 src
-test

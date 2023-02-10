@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_exe.c                                      :+:      :+:    :+:   */
+/*   command_exe_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 17:18:19 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/10 17:00:05 by tbelleng         ###   ########.fr       */
+/*   Created: 2023/02/10 12:53:41 by tbelleng          #+#    #+#             */
+/*   Updated: 2023/02/10 16:09:19 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 char	*get_cmd(char **paths, char *cmd)
 {
@@ -28,6 +28,24 @@ char	*get_cmd(char **paths, char *cmd)
 		paths++;
 	}
 	return (NULL);
+}
+
+void    multiple_cmd(t_pipe data, int argc, char **argv, char **envp)
+{
+	int     i;
+	int     j;
+	
+	i = argc - 2;
+	j = 1;
+	data.pipe = malloc(sizeof(int) * i);
+	//first_child
+	while (j < i)
+	{
+		mid_child(data, j, argv, envp)
+		j++;
+	}
+	//last_child
+
 }
 
 void	first_child(t_pipe data, char **argv, char **envp)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 15:24:22 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/09 18:31:10 by tbelleng         ###   ########.fr       */
+/*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
+/*   Updated: 2023/02/10 15:40:04 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_pipex
 {
 	pid_t	pid1;
 	pid_t	pid2;
-	int		pipe[2];
+	int		*pipe;
 	int		infile;
 	int		outfile;
 	char	*paths;
