@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:41 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/13 17:43:50 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:49:48 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	mid_child(t_pipe data, int j, char **argv, char **envp)
 {
-	dup2(data.pipe[2 * j + 1], 1);
+	pipe(data.pipe);
+	dup2(data.pipe[2 * (j + 1) + 1], 1);
 	close(data.pipe[2 * j - 1]);
-	dup2(data.pipe[2 * j - 2], 0);
+	dup2(data.pipe[2 * j], 0);
 	data.cmd_args = ft_split(argv[j + 2], ' ');
 	data.cmd = get_cmd(data.cmd_paths, data.cmd_args[0]);
 	if (!data.cmd)
@@ -54,8 +55,8 @@ void    multiple_cmd(t_pipe data, int argc, char **argv, char **envp)
 	i = argc - 3;
 	j = 1;
 	data.pid_numb = 1;
-	data.pipe = malloc(sizeof(int) * i);
-	data.pidx = malloc(sizeof(pid_t)* i);
+	data.pipe = malloc(sizeof(int) * ((i + 1) * 2));
+	data.pidx = malloc(sizeof(pid_t) * i);
 	data.pidx[0] = fork();
 	if (data.pidx[0] == 0)
 		first_child(data, argv, envp);
@@ -69,12 +70,14 @@ void    multiple_cmd(t_pipe data, int argc, char **argv, char **envp)
 		data.pid_numb++;
 	}
 	data.pidx[data.pid_numb] = fork();
+	//printf("at the end pid numb is : %d\n", data.pid_numb);
 	if (data.pidx[data.pid_numb] == 0)
 		last_child(data, j, argv, envp);
 }
 
 void	first_child(t_pipe data, char **argv, char **envp)
 {
+	pipe(data.pipe);
 	dup2(data.pipe[1], 1);
 	close(data.pipe[0]);
 	dup2(data.infile, 0);

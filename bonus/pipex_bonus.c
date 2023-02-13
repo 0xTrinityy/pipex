@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/13 15:09:30 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:26:50 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int	main(int argc, char **argv, char **envp)
 	data.cmd_paths = ft_split(data.paths, ':');
 	multiple_cmd(data, argc, argv, envp);
 	close_all(&data);
+	//printf("just before waitpid pid numb is %d\n", data.pid_numb);
 	while (i < data.pid_numb)
 	{
+		//printf("pidx equal %d and pid_numb is %d\n", i, data.pid_numb);
 		waitpid(data.pidx[i], NULL, 0);
 		i++;
 	}
