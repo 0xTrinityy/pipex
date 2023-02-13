@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/10 15:37:48 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:09:30 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ char	*find_path(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipe	data;
+	int     i;
 
 	if (argc < 6)
 		return (msg(ERR_INPUT));
+	i = 0;
 	data.infile = open(argv[1], O_RDONLY);
 	if (data.infile < 0)
 		msg_error(ERR_INFILE);
@@ -36,15 +38,12 @@ int	main(int argc, char **argv, char **envp)
 	data.paths = find_path(envp);
 	data.cmd_paths = ft_split(data.paths, ':');
 	multiple_cmd(data, argc, argv, envp);
-	/*data.pid1 = fork();
-	if (data.pid1 == 0)
-		first_child(data, argv, envp);
-	data.pid2 = fork();
-	if (data.pid2 == 0)
-		second_child(data, argv, envp);*/
 	close_all(&data);
-	waitpid(data.pid1, NULL, 0);
-	waitpid(data.pid2, NULL, 0);
+	while (i < data.pid_numb)
+	{
+		waitpid(data.pidx[i], NULL, 0);
+		i++;
+	}
 	parent_free(&data);
 	return (0);
 }

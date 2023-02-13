@@ -1,0 +1,8 @@
+bin
+bonus
+includes
+libft
+Makefile
+pipex
+pipex_bonus
+src

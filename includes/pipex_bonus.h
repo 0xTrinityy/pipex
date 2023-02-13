@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/10 15:40:04 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/13 14:44:45 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 
 typedef struct s_pipex
 {
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	*pidx;
+	int     pid_numb;
 	int		*pipe;
 	int		infile;
 	int		outfile;
@@ -50,8 +50,8 @@ void	parent_free(t_pipe *data);
 void	child_free(t_pipe *data);
 char	*get_cmd(char **paths, char *cmd);
 void	first_child(t_pipe pipex, char **argv, char **envp);
-void	second_child(t_pipe pipex, char **argv, char **envp);
-
+void	last_child(t_pipe pipex, int j, char **argv, char **envp);
+void    multiple_cmd(t_pipe data, int argc, char **argv, char **envp);
 
 
 

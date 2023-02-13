@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:49 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/10 12:54:35 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:46:01 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void    close_all(t_pipe *data)
 {
 	close(data->pipe[0]);
 	close(data->pipe[1]);
+	close(data->outfile);
+	close(data->infile);
 }
 
 void	parent_free(t_pipe *data)

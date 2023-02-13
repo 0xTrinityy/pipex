@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:18:19 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/10 17:00:05 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/11 13:37:04 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	first_child(t_pipe data, char **argv, char **envp)
 		msg(ERR_CMD);
 		exit(1);
 	}
+	close(data.pipe[1]);
+	close_all(&data);
 	execve(data.cmd, data.cmd_args, envp);
 }
 
@@ -59,5 +61,7 @@ void	second_child(t_pipe data, char **argv, char **envp)
 		msg(ERR_CMD);
 		exit(1);
 	}
+	close(data.pipe[0]);
+	close_all(&data);
 	execve(data.cmd, data.cmd_args, envp);
 }
