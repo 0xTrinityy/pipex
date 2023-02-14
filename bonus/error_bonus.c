@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:49 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/13 17:46:01 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:49:02 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ void	msg_error(char *err)
 {
 	perror(err);
 	exit (1);
+}
+
+void	close_pipes(t_pipe *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < (data->pipe_nb))
+	{
+		close(data->pipe[i]);
+		i++;
+	}
 }
 
 void    close_all(t_pipe *data)

@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/13 21:26:50 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/14 18:47:20 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ char	*find_path(char **envp)
 	while (ft_strncmp("PATH", *envp, 4))
 		envp++;
 	return (*envp + 5);
+}
+
+void    new_pipe(t_pipe *data, int argc)
+{
+	int     i;
+	
+	i = 0;
+	data->cmd_nb = argc - 3;
+	while (i < data->cmd_nb - 1)
+	{
+		if (pipe(data->pipe + (2 * i)) < 0)
+			parent_free(data);
+		i++;
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -35,15 +49,25 @@ int	main(int argc, char **argv, char **envp)
 		msg_error(ERR_OUTFILE);
 	if (pipe(data.pipe) < 0)
 		msg_error(ERR_PIPE);
+	data.pipe_nb = 2 * ((argc - 3) - 1);
+	data.pipe = malloc(sizeof(int *) * data.pipe_nb);
 	data.paths = find_path(envp);
 	data.cmd_paths = ft_split(data.paths, ':');
-	multiple_cmd(data, argc, argv, envp);
-	close_all(&data);
-	//printf("just before waitpid pid numb is %d\n", data.pid_numb);
-	while (i < data.pid_numb)
+	new_pipe(&data, argc);
+	data.pidx = 0;
+	printf("cmd commad equal to %d\n", data.cmd_nb);
+	data.pid = malloc(sizeof(pid_t) * (data.cmd_nb - 1));
+	while (data.pidx < data.cmd_nb)
 	{
-		//printf("pidx equal %d and pid_numb is %d\n", i, data.pid_numb);
-		waitpid(data.pidx[i], NULL, 0);
+		multiple_cmd(data, argv, envp);
+		printf("pidx equal to %d\n", data.pidx);
+		data.pidx++;
+	}
+	close_pipes(&data);
+	while (i < data.cmd_nb)
+	{
+		waitpid(data.pid[i], NULL, 0);
+		printf("i equal to %d\n", i);
 		i++;
 	}
 	parent_free(&data);

@@ -1,8 +1,1 @@
-bin
-bonus
-includes
-libft
-Makefile
-pipex
-pipex_bonus
-src
+/mnt/nfs/homes/tbelleng/42_cursus/pipex_2/pipex
