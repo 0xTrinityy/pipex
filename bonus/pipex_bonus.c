@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/14 18:47:20 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:54:37 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 6)
 		return (msg(ERR_INPUT));
 	i = 0;
+	is_heredoc(argv, &data);
 	data.infile = open(argv[1], O_RDONLY);
 	if (data.infile < 0)
 		msg_error(ERR_INFILE);

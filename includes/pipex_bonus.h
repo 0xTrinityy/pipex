@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/14 16:39:47 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:27:31 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define ERR_INPUT "Invalid number of arguments.\n"
 # define ERR_PIPE "Pipe error \n"
 # define ERR_CMD "Command not found\n"
+# define ERR_HEREDOC "Here_doc error\n"
 
 # include "../libft/libft.h"
 # include <errno.h>
@@ -34,6 +35,7 @@ typedef struct s_pipex
 	int     pid_numb;
 	int     pipe_nb;
 	int     cmd_nb;
+	int     doc;
 	int		*pipe;
 	int		infile;
 	int		outfile;
@@ -56,7 +58,7 @@ char	*get_cmd(char **paths, char *cmd);
 void	first_child(t_pipe pipex, char **argv, char **envp);
 void	last_child(t_pipe pipex, int j, char **argv, char **envp);
 void    multiple_cmd(t_pipe data, char **argv, char **envp);
-
+void     is_heredoc(char **argv, t_pipe *data);
 
 
 #endif
