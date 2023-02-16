@@ -6,12 +6,16 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/15 18:27:31 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/16 11:36:22 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # define ERR_INFILE "Infile error\n"
 # define ERR_OUTFILE "Outfile error\n"
@@ -59,6 +63,14 @@ void	first_child(t_pipe pipex, char **argv, char **envp);
 void	last_child(t_pipe pipex, int j, char **argv, char **envp);
 void    multiple_cmd(t_pipe data, char **argv, char **envp);
 void     is_heredoc(char **argv, t_pipe *data);
+
+int		get_next_line(int fd, char **line);
+size_t	ft_strlen(const char *s);
+int		find_nl(char *str);
+char	*str_join(char *s1, char *s2);
+char	*get_line(char *str);
+char	*trim_rem(char *str);
+int		some_error(char *str);
 
 
 #endif
