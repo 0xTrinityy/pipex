@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:32:18 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/16 19:49:49 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:16:39 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void    read_doc(char **argv, t_pipe *data)
 	int     fd;
 	char    *buffer;
 	
-	data->infile = open("here_doc", O_TRUNC | O_CREAT | O_RDWR, 0000644);
-	if (data->infile < 0)
+	fd = open(".here_doc", O_TRUNC | O_CREAT | O_RDWR, 0000644);
+	if (fd < 0)
 		msg_error(ERR_HEREDOC);
 	while (1)
 	{
@@ -29,12 +29,12 @@ void    read_doc(char **argv, t_pipe *data)
 			printf("nothing to read anymore\n");
 			break;
 		}
-		write(data->infile, buffer,ft_strlen(buffer));
-		free(buffer);
-		
+		write(fd, buffer,ft_strlen(buffer));
+		write(fd, "\n", 1);
+		free(buffer);	
 	}
-	close(data->infile);
-	open(data->infile, O_RDONLY, 0000644);
+	close(fd);
+	data->infile = open(".here_doc", O_RDONLY);
 	dup2(data->infile, 0);
 }
 

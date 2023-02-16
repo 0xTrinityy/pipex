@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/15 14:54:37 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:17:33 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	parent_free(&data);
+	unlink(".here_doc");
 	return (0);
 }
