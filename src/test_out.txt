@@ -1,0 +1,8 @@
+bin
+bonus
+gnl
+includes
+libft
+Makefile
+pipex
+src
