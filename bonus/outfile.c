@@ -6,14 +6,11 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 19:55:32 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/16 19:55:33 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:26:36 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../includes/pipex_bonus.h"
-
 
 int    out_file(int argc, char **argv, t_pipe *data)
 {

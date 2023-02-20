@@ -6,7 +6,7 @@
 #    By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 15:53:01 by tbelleng          #+#    #+#              #
-#    Updated: 2023/02/15 18:28:04 by tbelleng         ###   ########.fr        #
+#    Updated: 2023/02/20 13:17:47 by tbelleng         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ SRC_BONUS =  $(SRC_BONUS_DIR)/pipex_bonus.c      \
 			 $(SRC_BONUS_DIR)/error_bonus.c      \
 			 $(SRC_BONUS_DIR)/here_doc.c      \
 			 $(SRC_BONUS_DIR)/command_exe_bonus.c      \
+			 $(SRC_BONUS_DIR)/gnl.c      \
+			 $(SRC_BONUS_DIR)/gnl_utils.c      \
+			 $(SRC_BONUS_DIR)/outfile.c      \
 
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)%.o)

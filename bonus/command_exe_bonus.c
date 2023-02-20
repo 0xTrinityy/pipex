@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:41 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/14 16:48:07 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:47:30 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void    multiple_cmd(t_pipe data, char **argv, char **envp)
 		else
 			to_dup(data.pipe[2 * data.pidx - 2], data.pipe[2 * data.pidx + 1]);
 		close_pipes(&data);
-		data.cmd_args = ft_split(argv[data.pidx + 2], ' ');
+		data.cmd_args = ft_split(argv[data.pidx + 2 + data.doc], ' ');
 		data.cmd = get_cmd(data.cmd_paths, data.cmd_args[0]);
 		if (!data.cmd)
 		{

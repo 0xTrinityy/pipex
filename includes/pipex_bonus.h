@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/16 11:36:22 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:48:13 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,24 @@ int			msg(char *err);
 void		msg_error(char *err);
 void    close_all(t_pipe *data);
 void	close_pipes(t_pipe *data);
-void	parent_free(t_pipe *data);
+void	parent_free(t_pipe *data, int agrc);
 void	child_free(t_pipe *data);
 char	*get_cmd(char **paths, char *cmd);
-void	first_child(t_pipe pipex, char **argv, char **envp);
-void	last_child(t_pipe pipex, int j, char **argv, char **envp);
 void    multiple_cmd(t_pipe data, char **argv, char **envp);
-void     is_heredoc(char **argv, t_pipe *data);
+void    is_heredoc(char **argv, t_pipe *data);
+int    out_file(int argc, char **argv, t_pipe *data);
 
-int		get_next_line(int fd, char **line);
-size_t	ft_strlen(const char *s);
-int		find_nl(char *str);
-char	*str_join(char *s1, char *s2);
-char	*get_line(char *str);
-char	*trim_rem(char *str);
-int		some_error(char *str);
+char	*ft_get_line(char *save);
+char	*ft_save(char *save);
+char	*ft_read_and_save(int fd, char *save);
+char	*get_next_line(int fd);
+size_t	ft_strlen1(char *str);
+char	*ft_strchr1(char *s, int c);
+char	*ft_strjoin1(char *s1, char *s2);
+
+
+
+
 
 
 #endif
