@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:32:18 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/20 16:46:44 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:57:59 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    read_doc(char **argv, t_pipe *data)
 			break;
 		write(fd, buffer, ft_strlen(buffer));
 		//write(fd, "\n", 1);
-		free(buffer);	
+		free(buffer);
 	}
 	free(buffer);
 	close(fd);

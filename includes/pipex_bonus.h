@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/20 16:48:13 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:32:15 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define ERR_PIPE "Pipe error \n"
 # define ERR_CMD "Command not found\n"
 # define ERR_HEREDOC "Here_doc error\n"
+# define ERR_UNLINK "Unlink error\n"
 
 # include "../libft/libft.h"
 # include <errno.h>
