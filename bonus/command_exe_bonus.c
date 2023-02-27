@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:41 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/21 14:20:26 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:10:13 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void    to_dup(int infile, int outfile)
 
 void    multiple_cmd(t_pipe data, char **argv, char **envp)
 {
+	//printf("%d\n", data.pidx);
 	data.pid[data.pidx] = fork();
 	if (!data.pid[data.pidx])
 	{

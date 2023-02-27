@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:32:18 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/21 14:57:59 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/27 16:31:45 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ void    read_doc(char **argv, t_pipe *data)
 		if (!ft_strncmp(buffer, argv[2], ft_strlen(argv[2])))
 			break;
 		write(fd, buffer, ft_strlen(buffer));
-		//write(fd, "\n", 1);
 		free(buffer);
 	}
 	free(buffer);
 	close(fd);
 	data->infile = open(".here_doc", O_RDONLY);
 	dup2(data->infile, 0);
+	//get_next_line(0);
+	//close(0);
 	//unlink("here_doc");
 }
 

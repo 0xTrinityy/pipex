@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/21 13:31:47 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/27 16:06:06 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,18 @@ int	main(int argc, char **argv, char **envp)
 	data.outfile = out_file(argc, argv, &data);
 	if (data.outfile < 0)
 		msg_error(ERR_OUTFILE);
-	if (pipe(data.pipe) < 0)
-		msg_error(ERR_PIPE);
 	data.pipe_nb = 2 * ((argc - 3 - data.doc) - 1);
 	data.pipe = malloc(sizeof(int *) * data.pipe_nb);
+	if (pipe(data.pipe) < 0)
+		msg_error(ERR_PIPE);
+	//data.pipe_nb = 2 * ((argc - 3 - data.doc) - 1);
+	//data.pipe = malloc(sizeof(int *) * data.pipe_nb);
 	data.paths = find_path(envp);
 	data.cmd_paths = ft_split(data.paths, ':');
 	new_pipe(&data, argc);
 	data.pidx = 0;
 	//printf("cmd commad equal to %d\n", data.cmd_nb);
-	data.pid = malloc(sizeof(pid_t) * (data.cmd_nb - 1));
+	data.pid = malloc(sizeof(pid_t) * (data.cmd_nb));
 	while (data.pidx < data.cmd_nb)
 	{
 		multiple_cmd(data, argv, envp);
@@ -71,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	parent_free(&data, argc);
-	if (unlink(".here_doc") == -1)
+	if (data.doc == 1 && unlink(".here_doc") == -1)
 		msg_error(ERR_UNLINK);
 	return (0);
 }
