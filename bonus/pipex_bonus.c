@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/27 16:06:06 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:55:11 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 	while (i < data.cmd_nb)
 	{
 		waitpid(data.pid[i], NULL, 0);
-		//printf("i equal to %d\n", i);
 		i++;
 	}
 	parent_free(&data, argc);

@@ -6,101 +6,103 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:32:53 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/16 14:39:16 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 14:45:15 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/pipex_bonus.h"
 
-char	*ft_get_line(char *save)
+char	*getting_file(char *buff, int fd)
 {
-	int		i;
-	char	*s;
+	char	*readed;
+	int		n;
 
-	i = 0;
-	if (!save[i])
+	readed = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!readed)
 		return (NULL);
-	while (save[i] && save[i] != '\n')
-		i++;
-	s = (char *)malloc(sizeof(char) * (i + 2));
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (save[i] && save[i] != '\n')
+	n = 1;
+	while (n > 0)
 	{
-		s[i] = save[i];
-		i++;
-	}
-	if (save[i] == '\n')
-	{
-		s[i] = save[i];
-		i++;
-	}
-	s[i] = '\0';
-	return (s);
-}
-
-char	*ft_save(char *save)
-{
-	int		i;
-	int		c;
-	char	*s;
-
-	i = 0;
-	while (save[i] && save[i] != '\n')
-		i++;
-	if (!save[i])
-	{
-		free(save);
-		return (NULL);
-	}
-	s = (char *)malloc(sizeof(char) * (ft_strlen1(save) - i + 1));
-	if (!s)
-		return (NULL);
-	i++;
-	c = 0;
-	while (save[i])
-		s[c++] = save[i++];
-	s[c] = '\0';
-	free(save);
-	return (s);
-}
-
-char	*ft_read_and_save(int fd, char *save)
-{
-	char	*buff;
-	int		read_bytes;
-
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
-		return (NULL);
-	read_bytes = 1;
-	while (!ft_strchr1(save, '\n') && read_bytes != 0)
-	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
-		if (read_bytes == -1)
+		n = read(fd, readed, BUFFER_SIZE);
+		if (n < 0)
 		{
-			free(buff);
+			free(readed);
 			return (NULL);
 		}
-		buff[read_bytes] = '\0';
-		save = ft_strjoin1(save, buff);
+		readed[n] = '\0';
+		buff = ft_strjoin1(readed, buff);
+		if (check(buff))
+			n = 0;
 	}
+	free(readed);
+	return (buff);
+}
+
+char	*getting_line(char *buff)
+{
+	char		*str;
+	int			i;
+
+	i = 0;
+	if (buff[i] == 0)
+		return (NULL);
+	str = malloc(sizeof(char) * ft_strlen1(buff) + 1);
+	if (!str)
+		return (NULL);
+	while (buff[i] && buff[i] != '\n')
+	{
+		str[i] = buff[i];
+		i++;
+	}
+	if (buff[i] == '\n')
+	{
+		str[i] = '\n';
+		i++;
+	}
+	str[i] = 0;
+	return (str);
+}
+
+char	*trimmed_buff(char *buff)
+{
+	char		*str;
+	int			i;
+	int			j;
+	int			size;
+
+	i = 0;
+	j = 0;
+	size = ft_strlen_classic(buff) - ft_strlen1(buff);
+	if (!size)
+	{
+		free(buff);
+		return (NULL);
+	}
+	str = malloc(sizeof (char) * (size + 1));
+	if (!str)
+		return (NULL);
+	i = ft_strlen1(buff);
+	while (buff[i])
+		str[j++] = buff[i++];
+	str[j] = 0;
 	free(buff);
-	return (save);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*line;
-	static char	*save;
+	static char		*buff;
+	char			*str;
 
+	str = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	save = ft_read_and_save(fd, save);
-	if (!save)
 		return (NULL);
-	line = ft_get_line(save);
-	save = ft_save(save);
-	return (line);
+	buff = getting_file(buff, fd);
+	if (!buff)
+		return (NULL);
+	str = getting_line(buff);
+	buff = trimmed_buff(buff);
+	if (!str)
+		free(buff);
+	return (str);
 }

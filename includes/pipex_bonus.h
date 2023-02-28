@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/27 16:46:47 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 14:41:33 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,13 @@ void    multiple_cmd(t_pipe data, char **argv, char **envp);
 void    is_heredoc(char **argv, t_pipe *data);
 int    out_file(int argc, char **argv, t_pipe *data);
 
-char	*ft_get_line(char *save);
-char	*ft_save(char *save);
-char	*ft_read_and_save(int fd, char *save);
+
 char	*get_next_line(int fd);
-size_t	ft_strlen1(char *str);
-char	*ft_strchr1(char *s, int c);
-char	*ft_strjoin1(char *s1, char *s2);
-
-
-
-
-
+char	*ft_strjoin1(char *readed, char *buff);
+int		ft_strlen1(char *str);
+char	*getting_line(char *rest);
+int		check(char *str);
+char	*trimmed_buff(char *rest);
+int		ft_strlen_classic(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:32:18 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/27 16:31:45 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:06:23 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ void    read_doc(char **argv, t_pipe *data)
 	close(fd);
 	data->infile = open(".here_doc", O_RDONLY);
 	dup2(data->infile, 0);
-	//get_next_line(0);
-	//close(0);
-	//unlink("here_doc");
 }
 
 
@@ -53,6 +50,5 @@ void    is_heredoc(char **argv, t_pipe *data)
 	{
 		data->doc = 0;
 		data->infile = open(argv[1], O_RDONLY);
-	}	
-	//printf("is there an here_doc : %d\n", data->doc);
+	}
 }

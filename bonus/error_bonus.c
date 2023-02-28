@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:49 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/21 14:43:16 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 18:07:04 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ void	close_pipes(t_pipe *data)
 	int	i;
 
 	i = 0;
+	//fprintf(stderr, "%d\n", data->pipe_nb);
 	while (i < (data->pipe_nb))
 	{
 		close(data->pipe[i]);
+		//fprintf(stderr, "i vaut %d\n", i);
 		i++;
 	}
+	//fprintf(stderr, "fd vaut %d\n", data->pipe[3]);
 }
 
 void    close_all(t_pipe *data)
@@ -42,6 +45,7 @@ void    close_all(t_pipe *data)
 	close(data->pipe[1]);
 	close(data->outfile);
 	close(data->infile);
+	free(data->pipe);
 }
 
 void	parent_free(t_pipe *data, int argc)
