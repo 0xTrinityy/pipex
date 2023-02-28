@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:49 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/28 18:07:04 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 19:59:50 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void    close_all(t_pipe *data)
 {
 	close(data->pipe[0]);
 	close(data->pipe[1]);
+	//close(data->pipe[2]);
 	close(data->outfile);
 	close(data->infile);
 	free(data->pipe);
@@ -55,6 +56,8 @@ void	parent_free(t_pipe *data, int argc)
 	i = 0;
 	close(data->infile);
 	close(data->outfile);
+	if (data->doc == 1 && unlink(".here_doc") == -1)
+		msg_error(ERR_UNLINK);
 	while (data->cmd_paths[i])
 	{
 		free(data->cmd_paths[i]);
@@ -64,6 +67,8 @@ void	parent_free(t_pipe *data, int argc)
 	free(data->pipe);
 	free(data->pid);
 	close(argc - 1);
+	close(6);
+	close(5);
 }
 
 void	child_free(t_pipe *data)

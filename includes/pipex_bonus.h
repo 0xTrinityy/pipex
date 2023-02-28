@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:23 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/28 14:41:33 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 19:54:45 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			msg(char *err);
 void		msg_error(char *err);
 void    close_all(t_pipe *data);
 void	close_pipes(t_pipe *data);
-void	parent_free(t_pipe *data, int agrc);
+void	parent_free(t_pipe *data, int argc);
 void	child_free(t_pipe *data);
 char	*get_cmd(char **paths, char *cmd);
 void    multiple_cmd(t_pipe data, char **argv, char **envp);

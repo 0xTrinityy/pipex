@@ -6,7 +6,7 @@
 /*   By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:53:56 by tbelleng          #+#    #+#             */
-/*   Updated: 2023/02/28 17:55:11 by tbelleng         ###   ########.fr       */
+/*   Updated: 2023/02/28 19:57:26 by tbelleng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    new_pipe(t_pipe *data, int argc)
 	while (i < data->cmd_nb - 1)
 	{
 		if (pipe(data->pipe + (2 * i)) < 0)
-			parent_free(data, argc);
+			parent_free(data, argc);;
 		i++;
 	}
 }
@@ -72,7 +72,5 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	parent_free(&data, argc);
-	if (data.doc == 1 && unlink(".here_doc") == -1)
-		msg_error(ERR_UNLINK);
 	return (0);
 }
